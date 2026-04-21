@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Upload Statement — Spendio</title>
+    <meta
+      name="description"
+      content="Upload a CSV bank statement to import transactions into Spendio."
+    />
+    <link rel="preconnect" href="https://rsms.me/" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <div class="app">
+      <aside class="sidebar" aria-label="Main">
+        <a class="brand" href="/index.html" aria-label="Spendio home">
+          <span class="brand__mark" aria-hidden="true">S</span>
+          <span>SPENDIO</span>
+        </a>
+
+        <div class="sidebar-section">
+          <p class="sidebar-section__label">Main Menu</p>
+          <nav class="sidebar-nav" aria-label="Primary">
+            <a class="nav-item" href="/index.html">
+              <svg class="nav-item__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1Z"/></svg>
+              <span>Home</span>
+            </a>
+            <a class="nav-item" href="/upload.html" aria-current="page">
+              <svg class="nav-item__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <span>Upload</span>
+            </a>
+            <a class="nav-item" href="/manual-entry.html">
+              <svg class="nav-item__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Add Expense</span>
+            </a>
+            <a class="nav-item" href="/history.html">
+              <svg class="nav-item__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+              <span>History</span>
+            </a>
+          </nav>
+        </div>
+
+        <div class="sidebar-footer">
+          <a class="nav-item" href="#" aria-disabled="true">
+            <svg class="nav-item__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.56V21a2 2 0 1 1-4 0v-.08A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1H3a2 2 0 1 1 0-4h.08A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.56V3a2 2 0 1 1 4 0v.08A1.7 1.7 0 0 0 15 4.6a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9c.3.22.68.34 1.06.34H21a2 2 0 1 1 0 4h-.08a1.7 1.7 0 0 0-1.52 1Z"/></svg>
+            <span>Settings</span>
+          </a>
+        </div>
+      </aside>
+
+      <div class="main">
+        <header class="topbar">
+          <div class="topbar__title">
+            <h1>Upload a Bank Statement</h1>
+            <p class="topbar__subtitle">
+              CSV parsing happens in your browser &mdash; preview before saving.
+            </p>
+          </div>
+          <div class="topbar__actions">
+            <button type="button" class="iconbutton" aria-label="Messages">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>
+            </button>
+            <button type="button" class="iconbutton" aria-label="Notifications">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            </button>
+            <span class="user-chip">
+              <span class="user-chip__avatar" aria-hidden="true">S</span>
+              <span>Student</span>
+            </span>
+          </div>
+        </header>
+
+        <main class="page-content" id="main">
+          <div class="message message--info hidden" id="config-warning" role="status">
+            <strong>Supabase is not configured.</strong> You can still preview
+            parsed rows; saving is disabled until credentials are set.
+          </div>
+
+          <section class="card" aria-labelledby="upload-heading">
+            <div class="section__header">
+              <h2 id="upload-heading">Choose a file</h2>
+            </div>
+
+            <form class="form" id="upload-form" novalidate>
+              <div class="field">
+                <label for="file-input">Statement file (CSV or PDF)</label>
+                <input
+                  type="file"
+                  id="file-input"
+                  name="file"
+                  accept=".csv,text/csv,application/pdf,.pdf"
+                  aria-describedby="file-hint"
+                  required
+                />
+                <span class="field__hint" id="file-hint">
+                  CSV gives the most accurate results. PDF statements are
+                  parsed heuristically &mdash; deposits and credits are
+                  pre-unchecked for you, and you can remove any rows you
+                  don't want before saving. Scanned image PDFs are not
+                  supported.
+                </span>
+              </div>
+
+              <div class="btn-row">
+                <button type="submit" class="btn btn--primary" id="parse-btn">Parse file</button>
+                <button type="button" class="btn btn--secondary" id="reset-btn">Reset</button>
+              </div>
+            </form>
+
+            <div class="message message--error hidden mt-3" id="parse-error" role="alert"></div>
+            <div class="message message--success hidden mt-3" id="save-success" role="status"></div>
+          </section>
+
+          <section class="card hidden" id="preview-section" aria-labelledby="preview-heading">
+            <div class="section__header">
+              <h2 id="preview-heading">Preview</h2>
+              <p class="text-muted" id="preview-summary"></p>
+            </div>
+            <div class="table-wrap scroll-box">
+              <table class="data-table">
+                <caption class="visually-hidden">
+                  Parsed transactions awaiting confirmation
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col"><span class="visually-hidden">Include</span></th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Description</th>
+                    <th scope="col" class="num">Amount</th>
+                    <th scope="col"><span class="visually-hidden">Remove</span></th>
+                  </tr>
+                </thead>
+                <tbody id="preview-body"></tbody>
+              </table>
+            </div>
+            <div class="btn-row mt-4">
+              <button type="button" class="btn btn--primary" id="confirm-btn">Save transactions</button>
+              <button type="button" class="btn btn--secondary" id="cancel-btn">Cancel</button>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script type="module" src="/js/upload.js"></script>
+  </body>
+</html>

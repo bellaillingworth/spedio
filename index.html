@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard — Spendio</title>
+    <meta
+      name="description"
+      content="Spendio dashboard: see your total spend this month, your top category, and daily spending trends."
+    />
+    <link rel="preconnect" href="https://rsms.me/" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <div class="app">
+      <aside class="sidebar" aria-label="Main">
+        <a class="brand" href="/index.html" aria-label="Spendio home">
+          <span class="brand__mark" aria-hidden="true">S</span>
+          <span>SPENDIO</span>
+        </a>
+
+        <div class="sidebar-section">
+          <p class="sidebar-section__label">Main Menu</p>
+          <nav class="sidebar-nav" aria-label="Primary">
+            <a class="nav-item" href="/index.html" aria-current="page">
+              <svg class="nav-item__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1Z"/></svg>
+              <span>Home</span>
+            </a>
+            <a class="nav-item" href="/upload.html">
+              <svg class="nav-item__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <span>Upload</span>
+            </a>
+            <a class="nav-item" href="/manual-entry.html">
+              <svg class="nav-item__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Add Expense</span>
+            </a>
+            <a class="nav-item" href="/history.html">
+              <svg class="nav-item__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+              <span>History</span>
+            </a>
+          </nav>
+        </div>
+
+        <div class="sidebar-section sidebar-section--secondary">
+          <p class="sidebar-section__label">Account</p>
+          <nav class="sidebar-nav" aria-label="Account management">
+            <a class="nav-item" href="#" aria-disabled="true">
+              <svg class="nav-item__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82Z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+              <span>Categories</span>
+            </a>
+          </nav>
+        </div>
+
+        <div class="sidebar-footer">
+          <a class="nav-item" href="#" aria-disabled="true">
+            <svg class="nav-item__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.56V21a2 2 0 1 1-4 0v-.08A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1H3a2 2 0 1 1 0-4h.08A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.56V3a2 2 0 1 1 4 0v.08A1.7 1.7 0 0 0 15 4.6a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9c.3.22.68.34 1.06.34H21a2 2 0 1 1 0 4h-.08a1.7 1.7 0 0 0-1.52 1Z"/></svg>
+            <span>Settings</span>
+          </a>
+        </div>
+      </aside>
+
+      <div class="main">
+        <header class="topbar">
+          <div class="topbar__title">
+            <h1>Welcome back</h1>
+            <p class="topbar__subtitle" id="current-month-label">
+              Loading this month&hellip;
+            </p>
+          </div>
+          <div class="topbar__actions">
+            <button type="button" class="iconbutton" aria-label="Messages">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>
+            </button>
+            <button type="button" class="iconbutton" aria-label="Notifications">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            </button>
+            <span class="user-chip">
+              <span class="user-chip__avatar" aria-hidden="true">S</span>
+              <span>Student</span>
+            </span>
+          </div>
+        </header>
+
+        <main class="page-content" id="main">
+          <div class="message message--info hidden" id="config-warning" role="status">
+            <strong>Supabase is not configured.</strong> Add your project URL and
+            anon key in <code>js/supabase-client.js</code>.
+          </div>
+          <div class="message message--error hidden" id="load-error" role="alert"></div>
+
+          <section class="dashboard-grid" aria-label="Summary and trend">
+            <div class="stat-grid">
+              <article class="stat-card stat-card--peach" aria-labelledby="stat-total-label">
+                <div class="stat-card__top">
+                  <p class="stat-card__label" id="stat-total-label">Total Spent</p>
+                  <span class="stat-card__arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                  </span>
+                </div>
+                <div>
+                  <p class="stat-card__value" id="stat-total">$0.00</p>
+                  <p class="stat-card__meta" id="stat-total-meta">This month</p>
+                </div>
+              </article>
+
+              <article class="stat-card stat-card--mint" aria-labelledby="stat-category-label">
+                <div class="stat-card__top">
+                  <p class="stat-card__label" id="stat-category-label">Top Category</p>
+                  <span class="stat-card__arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                  </span>
+                </div>
+                <div>
+                  <p class="stat-card__value" id="stat-category">&mdash;</p>
+                  <p class="stat-card__meta" id="stat-category-meta">Where most goes</p>
+                </div>
+              </article>
+
+              <article class="stat-card stat-card--lavender" aria-labelledby="stat-count-label">
+                <div class="stat-card__top">
+                  <p class="stat-card__label" id="stat-count-label">Transactions</p>
+                  <span class="stat-card__arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                  </span>
+                </div>
+                <div>
+                  <p class="stat-card__value" id="stat-count">0</p>
+                  <p class="stat-card__meta">Logged this month</p>
+                </div>
+              </article>
+
+              <article class="stat-card stat-card--butter" aria-labelledby="stat-avg-label">
+                <div class="stat-card__top">
+                  <p class="stat-card__label" id="stat-avg-label">Avg / Day</p>
+                  <span class="stat-card__arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                  </span>
+                </div>
+                <div>
+                  <p class="stat-card__value" id="stat-avg">$0.00</p>
+                  <p class="stat-card__meta">So far this month</p>
+                </div>
+              </article>
+            </div>
+
+            <article class="hero-card" aria-labelledby="hero-heading">
+              <div class="hero-card__header">
+                <div>
+                  <h2 class="hero-card__title" id="hero-heading">Spending</h2>
+                  <p class="hero-card__value">
+                    <span id="hero-total">$0.00</span>
+                    <span class="hero-card__delta" id="hero-delta">This month</span>
+                  </p>
+                </div>
+                <span class="hero-card__range-pill" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  <span id="hero-range-label">30 days</span>
+                </span>
+              </div>
+              <div class="hero-card__chart chart-container" id="hero-chart" aria-describedby="hero-heading"></div>
+            </article>
+          </section>
+
+          <section class="bottom-grid" aria-label="Recent activity and breakdown">
+            <article class="card" aria-labelledby="recent-heading">
+              <div class="section__header">
+                <h2 id="recent-heading">Recent Transactions</h2>
+              </div>
+              <ul class="txn-list" id="recent-list">
+                <li class="empty-state">Loading&hellip;</li>
+              </ul>
+            </article>
+
+            <article class="card" aria-labelledby="spending-breakdown-heading">
+              <div class="section__header">
+                <h2 id="spending-breakdown-heading">Spending by Category</h2>
+              </div>
+              <div class="category-grid" id="category-grid"></div>
+              <div class="chart-container mt-4" id="bar-chart" aria-describedby="spending-breakdown-heading"></div>
+            </article>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+    <script type="module" src="/js/dashboard.js"></script>
+  </body>
+</html>
