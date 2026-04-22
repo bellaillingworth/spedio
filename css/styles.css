@@ -3,7 +3,11 @@
    Pastel "dashboard" aesthetic with a fixed sidebar, soft stat cards,
    and a teal hero chart card. Design system driven by CSS custom
    properties. Mobile-first: sidebar collapses to a horizontal nav bar
-   on small screens. All color pairings meet WCAG AA contrast.
+   on small screens.
+
+   Accessibility: all text/background pairings below are checked
+   against WCAG 2.1 AA — ≥ 4.5:1 for body text and ≥ 3:1 for large
+   text and non-text UI (form borders, focus rings, graphical objects).
    ========================================================================== */
 
 :root {
@@ -11,20 +15,21 @@
   --color-bg: #eef0f4;
   --color-surface: #ffffff;
   --color-surface-alt: #f5f6f9;
-  --color-border: #e4e7ee;
-  --color-border-strong: #d4d8e1;
+  --color-border: #e4e7ee;           /* decorative borders only */
+  --color-border-strong: #8b93a3;    /* 3.2:1 on white — form control edges (1.4.11) */
 
-  --color-text: #14171f;           /* ~15:1 on --color-bg */
-  --color-text-muted: #5b6374;     /* ~6:1 on white */
-  --color-text-subtle: #8a93a4;    /* 4.5:1 on white */
+  --color-text: #14171f;             /* ~16:1 on --color-bg */
+  --color-text-muted: #5b6374;       /* 6.3:1 on white */
+  --color-text-subtle: #6b7383;      /* 4.8:1 on white — AA for small text */
 
   /* Brand / primary (teal) */
-  --color-primary: #0f6b5b;        /* AA on white and on --color-surface */
+  --color-primary: #0f6b5b;          /* 6.3:1 on white */
   --color-primary-hover: #0a5447;
   --color-primary-contrast: #ffffff;
-  --color-hero-bg: #2ea089;        /* hero chart card */
-  --color-hero-bar: #f5ebc8;       /* cream bars */
+  --color-hero-bg: #157a66;          /* 5.2:1 with white text */
+  --color-hero-bar: #f5ebc8;         /* cream bars */
   --color-hero-bar-dim: rgba(245, 235, 200, 0.35);
+  --color-hero-overlay: rgba(0, 0, 0, 0.22); /* for small white text on hero */
 
   /* Accents */
   --color-accent: #b8421c;         /* AA on cream/white */
@@ -600,13 +605,13 @@ a:hover {
   font-size: 0.8125rem;
   padding: 2px 8px;
   border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--color-hero-overlay);
   color: #fff;
   font-weight: 600;
 }
 
 .hero-card__range-pill {
-  background: rgba(255, 255, 255, 0.18);
+  background: var(--color-hero-overlay);
   color: #fff;
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-pill);

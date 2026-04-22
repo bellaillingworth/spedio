@@ -9,11 +9,13 @@
  *   1. Pull out the visible text and reconstruct line order using the
  *      text items' y-coordinates (pdf.js returns items in no
  *      particular order, so we group by y and sort by x).
- *   2. Scan each line for a `date ... amount` pattern. If one is
- *      found, we treat the middle portion as the description.
- *   3. Infer a year from any 20YY string on the page (statement
- *      headers almost always include the statement year). If not
- *      found, fall back to the current year.
+ *   2. Scan the header area for the statement period (start + end
+ *      dates) so we know which calendar year every row belongs to —
+ *      most statements print transactions as just "MM/DD" and may
+ *      wrap from December into January.
+ *   3. Scan each line for a `date ... amount` pattern. If one is
+ *      found, we treat the middle portion as the description and
+ *      assign each MM/DD the correct year from the statement period.
  *   4. Skip rows that look like deposits / payments received based on
  *      simple keyword heuristics; the user can also remove any row in
  *      the preview table before saving.
@@ -75,11 +77,11 @@ async function loadPdfJs() {
 /**
  * Extract all visible text from a PDF file, grouped into lines that
  * preserve left-to-right reading order. Returns an array of strings
- * (one per reconstructed line), plus a best-guess year for the
- * statement.
+ * (one per reconstructed line), plus a best-guess statement period
+ * and year.
  *
  * @param {File} file
- * @returns {Promise<{lines: string[], year: number}>}
+ * @returns {Promise<{lines: string[], year: number, period: {start: Date, end: Date}|null}>}
  */
 export async function extractPdfLines(file) {
   const pdfjsLib = await loadPdfJs();
@@ -116,11 +118,217 @@ export async function extractPdfLines(file) {
     }
   }
 
-  const joined = lines.join(" ");
-  const yearMatch = joined.match(/\b(20\d{2})\b/);
-  const year = yearMatch ? Number(yearMatch[1]) : new Date().getFullYear();
+  const period = findStatementPeriod(lines);
 
-  return { lines, year };
+  // Fall back to a plain-year match so callers that only want a year
+  // still get something reasonable when no period is detectable.
+  let year;
+  if (period) {
+    // Prefer the end year — closing month is what banks label the
+    // statement with, and most transactions are dated near the end.
+    year = period.end.getFullYear();
+  } else {
+    const joined = lines.join(" ");
+    const yearMatch = joined.match(/\b(20\d{2})\b/);
+    year = yearMatch ? Number(yearMatch[1]) : new Date().getFullYear();
+  }
+
+  return { lines, year, period };
+}
+
+/* ==========================================================================
+ * Statement period detection
+ *
+ * Transactions inside a bank statement are usually printed as just
+ * "MM/DD" with no year, because the year is already implied by the
+ * statement header. To get the year right — especially for statements
+ * that wrap from December into January — we look for the statement
+ * period near the top of the document and use that as the source of
+ * truth.
+ * ========================================================================== */
+
+const MONTH_NAMES = {
+  jan: 0, january: 0,
+  feb: 1, february: 1,
+  mar: 2, march: 2,
+  apr: 3, april: 3,
+  may: 4,
+  jun: 5, june: 5,
+  jul: 6, july: 6,
+  aug: 7, august: 7,
+  sep: 8, sept: 8, september: 8,
+  oct: 9, october: 9,
+  nov: 10, november: 10,
+  dec: 11, december: 11,
+};
+
+function makeDate(year, month0, day) {
+  if (
+    !Number.isFinite(year) ||
+    !Number.isFinite(month0) ||
+    !Number.isFinite(day) ||
+    year < 1970 ||
+    month0 < 0 ||
+    month0 > 11 ||
+    day < 1 ||
+    day > 31
+  ) {
+    return null;
+  }
+  const d = new Date(year, month0, day);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+function expandYear(yy) {
+  const n = Number(yy);
+  if (!Number.isFinite(n)) return null;
+  if (String(yy).length === 2) return (n > 50 ? 1900 : 2000) + n;
+  return n;
+}
+
+function parseNumericDate(mm, dd, yy) {
+  const year = expandYear(yy);
+  if (year == null) return null;
+  return makeDate(year, Number(mm) - 1, Number(dd));
+}
+
+function parseMonthNameDate(monthName, day, year) {
+  const m = MONTH_NAMES[String(monthName).toLowerCase()];
+  if (m == null) return null;
+  return makeDate(Number(year), m, Number(day));
+}
+
+/**
+ * Try a list of patterns against the PDF text and return the first
+ * {start, end} pair we can confidently extract. Returns null when no
+ * recognizable statement period is found.
+ */
+function findStatementPeriod(lines) {
+  const joined = lines.join(" ").replace(/\s+/g, " ");
+
+  // MM/DD/YYYY - MM/DD/YYYY  (also handles "to" / "through" / en/em dash)
+  const numericRange = joined.match(
+    /(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})\s*(?:[-–—]|to|through|thru)\s*(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/i
+  );
+  if (numericRange) {
+    const s = parseNumericDate(numericRange[1], numericRange[2], numericRange[3]);
+    const e = parseNumericDate(numericRange[4], numericRange[5], numericRange[6]);
+    if (s && e && e >= s) return { start: s, end: e };
+  }
+
+  // "December 15, 2024 - January 14, 2025"
+  const monthRange = joined.match(
+    /([A-Za-z]{3,9})\.?\s+(\d{1,2}),?\s+(\d{4})\s*(?:[-–—]|to|through|thru)\s*([A-Za-z]{3,9})\.?\s+(\d{1,2}),?\s+(\d{4})/i
+  );
+  if (monthRange) {
+    const s = parseMonthNameDate(monthRange[1], monthRange[2], monthRange[3]);
+    const e = parseMonthNameDate(monthRange[4], monthRange[5], monthRange[6]);
+    if (s && e && e >= s) return { start: s, end: e };
+  }
+
+  // "Dec 15 - Jan 14, 2025" (only the end date carries the year)
+  const shortRange = joined.match(
+    /([A-Za-z]{3,9})\.?\s+(\d{1,2})\s*(?:[-–—]|to|through|thru)\s*([A-Za-z]{3,9})\.?\s+(\d{1,2}),?\s+(\d{4})/i
+  );
+  if (shortRange) {
+    const endYear = Number(shortRange[5]);
+    const e = parseMonthNameDate(shortRange[3], shortRange[4], endYear);
+    let s = parseMonthNameDate(shortRange[1], shortRange[2], endYear);
+    if (s && e && s > e) {
+      // e.g. "Dec 15 - Jan 14, 2025" → start was actually 2024.
+      s = parseMonthNameDate(shortRange[1], shortRange[2], endYear - 1);
+    }
+    if (s && e && e >= s) return { start: s, end: e };
+  }
+
+  // "Closing Date: 01/14/2025" / "Statement Date January 14, 2025"
+  const closingNumeric = joined.match(
+    /(?:closing|ending|statement|period\s+ending)\s+date[:\s]+(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/i
+  );
+  if (closingNumeric) {
+    const end = parseNumericDate(
+      closingNumeric[1],
+      closingNumeric[2],
+      closingNumeric[3]
+    );
+    if (end) return periodFromEnd(end);
+  }
+
+  const closingNamed = joined.match(
+    /(?:closing|ending|statement|period\s+ending)\s+date[:\s]+([A-Za-z]{3,9})\.?\s+(\d{1,2}),?\s+(\d{4})/i
+  );
+  if (closingNamed) {
+    const end = parseMonthNameDate(
+      closingNamed[1],
+      closingNamed[2],
+      closingNamed[3]
+    );
+    if (end) return periodFromEnd(end);
+  }
+
+  // "January 2025 Statement" / "Statement for January 2025"
+  const monthYear = joined.match(
+    /\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{4})\b/i
+  );
+  if (monthYear) {
+    const m = MONTH_NAMES[monthYear[1].toLowerCase()];
+    const y = Number(monthYear[2]);
+    const start = makeDate(y, m, 1);
+    const end = makeDate(y, m + 1, 0); // last day of month
+    if (start && end) return { start, end };
+  }
+
+  return null;
+}
+
+/**
+ * Given only a closing / statement date, assume a ~31-day window
+ * ending on it. Used when the statement prints one date but no
+ * explicit opening date.
+ */
+function periodFromEnd(endDate) {
+  const start = new Date(endDate);
+  start.setDate(start.getDate() - 31);
+  return { start, end: endDate };
+}
+
+/**
+ * Pick the most plausible year for a bare MM/DD, given a known
+ * statement period. If either the start or end year makes the date
+ * land inside the period, use that one. Otherwise fall back to the
+ * closest-looking year (late months → start year, early months →
+ * end year for year-crossing statements).
+ */
+function pickYearFromPeriod(month1, day, period) {
+  const startYear = period.start.getFullYear();
+  const endYear = period.end.getFullYear();
+  const candidates = startYear === endYear ? [startYear] : [startYear, endYear];
+
+  const startMs = new Date(
+    period.start.getFullYear(),
+    period.start.getMonth(),
+    period.start.getDate()
+  ).getTime();
+  const endMs = new Date(
+    period.end.getFullYear(),
+    period.end.getMonth(),
+    period.end.getDate()
+  ).getTime();
+
+  for (const y of candidates) {
+    const dt = makeDate(y, month1 - 1, day);
+    if (!dt) continue;
+    const t = dt.getTime();
+    if (t >= startMs && t <= endMs) return y;
+  }
+
+  if (startYear === endYear) return startYear;
+
+  // Period crosses a year boundary but the MM/DD doesn't land
+  // cleanly inside it (e.g. a pending row dated a few days late).
+  // Use the start month as the pivot: everything from startMonth
+  // onward belongs to startYear, earlier months to endYear.
+  return month1 >= period.start.getMonth() + 1 ? startYear : endYear;
 }
 
 /* ==========================================================================
@@ -185,25 +393,28 @@ function parseAmount(raw) {
 }
 
 /**
- * Normalize a date string + fallback year to YYYY-MM-DD.
+ * Normalize a date string to YYYY-MM-DD. When the line itself
+ * supplies a year we trust it; otherwise we ask the statement period
+ * which year this MM/DD belongs to, and only fall back to the plain
+ * fallbackYear if no period was detected.
  */
-function normalizeDate(mm, dd, yyMaybe, fallbackYear) {
-  let yy = yyMaybe;
-  if (!yy) yy = String(fallbackYear);
-  else if (yy.length === 2) yy = (Number(yy) > 50 ? "19" : "20") + yy;
-
+function normalizeDate(mm, dd, yyMaybe, fallbackYear, period) {
   const monthNum = Number(mm);
   const dayNum = Number(dd);
-  if (
-    monthNum < 1 ||
-    monthNum > 12 ||
-    dayNum < 1 ||
-    dayNum > 31 ||
-    Number(yy) < 1970
-  ) {
-    return null;
+  if (monthNum < 1 || monthNum > 12 || dayNum < 1 || dayNum > 31) return null;
+
+  let year;
+  if (yyMaybe) {
+    year = expandYear(yyMaybe);
+  } else if (period) {
+    year = pickYearFromPeriod(monthNum, dayNum, period);
+  } else {
+    year = Number(fallbackYear) || new Date().getFullYear();
   }
-  return `${yy}-${String(monthNum).padStart(2, "0")}-${String(dayNum).padStart(
+
+  if (!Number.isFinite(year) || year < 1970) return null;
+
+  return `${year}-${String(monthNum).padStart(2, "0")}-${String(dayNum).padStart(
     2,
     "0"
   )}`;
@@ -240,10 +451,20 @@ function looksLikeCredit(description) {
  * Parse previously-extracted lines into candidate transactions.
  *
  * @param {string[]} lines
- * @param {number} year fallback year for lines missing one
+ * @param {number | {year?: number, period?: {start: Date, end: Date}|null}} yearOrContext
+ *   Either a fallback year (back-compat) or a context object with the
+ *   statement period so bare MM/DD rows can be assigned the correct
+ *   year.
  * @returns {{rows: Array<{transaction_date:string, description:string, amount:number, category:string, isLikelyCredit:boolean}>, skipped:number}}
  */
-export function parsePdfLines(lines, year) {
+export function parsePdfLines(lines, yearOrContext) {
+  const context =
+    typeof yearOrContext === "number" || yearOrContext == null
+      ? { year: yearOrContext, period: null }
+      : yearOrContext;
+  const fallbackYear = context.year || new Date().getFullYear();
+  const period = context.period || null;
+
   const rows = [];
   let skipped = 0;
 
@@ -258,7 +479,13 @@ export function parsePdfLines(lines, year) {
     if (!amountMatch) continue;
 
     const [, mm, dd, yyMaybe] = dateMatch;
-    const transaction_date = normalizeDate(mm, dd, yyMaybe, year);
+    const transaction_date = normalizeDate(
+      mm,
+      dd,
+      yyMaybe,
+      fallbackYear,
+      period
+    );
     if (!transaction_date) {
       skipped++;
       continue;

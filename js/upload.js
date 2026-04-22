@@ -377,14 +377,14 @@ els.form.addEventListener("submit", async (event) => {
       preview = result.rows;
       skipped = result.skipped;
     } else {
-      const { lines, year } = await extractPdfLines(file);
+      const { lines, year, period } = await extractPdfLines(file);
       if (lines.length === 0) {
         showError(
           "We couldn't read any text from this PDF. It may be a scanned image — try exporting a CSV from your bank instead."
         );
         return;
       }
-      const result = parsePdfLines(lines, year);
+      const result = parsePdfLines(lines, { year, period });
       preview = result.rows;
       skipped = result.skipped;
     }

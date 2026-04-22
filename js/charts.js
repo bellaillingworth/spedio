@@ -144,11 +144,12 @@ export function renderHeroDailyBars(container, data, opts = {}) {
       .nice()
       .range([height - margin.bottom, margin.top]);
 
-    // Soft horizontal grid lines
+    // Soft horizontal grid lines (decorative; kept subtle on the
+    // teal bg — no contrast requirement for purely decorative lines).
     svg
       .append("g")
       .attr("transform", `translate(${margin.left},0)`)
-      .attr("color", "rgba(255,255,255,0.25)")
+      .attr("color", "rgba(255,255,255,0.35)")
       .call(
         d3
           .axisLeft(y)
@@ -160,11 +161,13 @@ export function renderHeroDailyBars(container, data, opts = {}) {
       .selectAll("line")
       .attr("stroke-opacity", 0.5);
 
-    // Y axis (value labels)
+    // Y axis value labels — full white for WCAG AA (≥ 4.5:1 on
+    // --color-hero-bg). Semi-transparent white failed the contrast
+    // check.
     svg
       .append("g")
       .attr("transform", `translate(${margin.left},0)`)
-      .attr("color", "rgba(255,255,255,0.82)")
+      .attr("color", "#ffffff")
       .call(
         d3
           .axisLeft(y)
@@ -181,7 +184,7 @@ export function renderHeroDailyBars(container, data, opts = {}) {
     svg
       .append("g")
       .attr("transform", `translate(0,${height - margin.bottom})`)
-      .attr("color", "rgba(255,255,255,0.82)")
+      .attr("color", "#ffffff")
       .call(
         d3
           .axisBottom(x)
