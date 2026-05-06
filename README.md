@@ -4,9 +4,12 @@
 ![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=flat&logo=supabase&logoColor=white)
 ![D3.js](https://img.shields.io/badge/D3.js-F9A03C?style=flat&logo=d3.js&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=flat)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-bpramjit.me-2dd4bf?style=flat&logo=azure-static-web-apps&logoColor=white)](https://bpramjit.me)
 ![Vibe Coded badge](https://img.shields.io/static/v1?message=Vibe%20Coded&labelColor=5c5c5c&color=7c3aed&logoColor=white&label=%20&style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjguMjAgNC4zMCA4My42MCA4My42MCIgZmlsbD0id2hpdGUiPgogIDxwYXRoIGQ9Im04Ni43MDcgMzUuNjY4LTAuNjY3OTctMS42NjhjLTAuMjA3MDMtMC41LTAuNjI1LTAuNzUtMS4wODItMC43NXMtMC44NzUgMC4yNS0xLjA4MiAwLjc1bC0wLjY2Nzk3IDEuNjY4Yy0yLjEyNSA1LjQxNy02LjI5MiA5LjU4My0xMS43MDggMTEuNzA4bC0xLjY2OCAwLjY2Nzk3Yy0wLjUgMC4yMDctMC43NSAwLjYyNS0wLjc1IDEuMDgycy0wLjI1IDAuODc1IDAuNzUgMS4wODJsMS42NjggMC42Njc5N2M1LjQxNyAyLjEyNSA5LjU4MyA2LjI5MiAxMS43MDggMTEuNzA4bDAuNjY3OTcgMS42NjhjMC4yMDcwMyAwLjUgMC42MjUgMC43NSAxLjA4MiAwLjc1czAuODc1LTAuMjUgMS4wODItMC43NWwwLjY2Nzk3LTEuNjY4YzIuMTI1LTUuNDE3IDYuMjkyLTkuNTgzIDExLjcwOC0xMS43MDhsMS42NjgtMC42Njc5N2MwLjUtMC4yMDcgMC43NS0wLjYyNSAwLjc1LTEuMDgycy0wLjI1LTAuODc1LTAuNzUtMS4wODJsLTEuNjY4LTAuNjY3OTdjLTUuNDE3LTIuMTI1LTkuNTgzLTYuMjkyLTExLjcwOC0xMS43MDh6bS01My4yOTMtMjAuMDQ3LTAuNDc3LTEuMTkxYy0wLjE0OC0wLjM1Ny0wLjQ0Ni0wLjUzNi0wLjc3NC0wLjUzNnMtMC42MjUgMC4xNzktMC43NzQgMC41MzZsLTAuNDc3IDEuMTkxYy0xLjUxOCAzLjg2OC00LjQ5OSA2Ljg0OC04LjM2NyA4LjM2N2wtMS4xOTEgMC40NzdjLTAuMzU3IDAuMTQ4LTAuNTM2IDAuNDQ2LTAuNTM2IDAuNzc0czAuMTc5IDAuNjI1IDAuNTM2IDAuNzc0bDEuMTkxIDAuNDc3YzMuODY4IDEuNTE4IDYuODQ4IDQuNDk5IDguMzY3IDguMzY3bDAuNDc3IDEuMTkxYzAuMTQ4IDAuMzU3IDAuNDQ2IDAuNTM2IDAuNzc0IDAuNTM2czAuNjI1LTAuMTc5IDAuNzc0LTAuNTM2bDAuNDc3LTEuMTkxYzEuNTE4LTMuODY4IDQuNDk5LTYuODQ4IDguMzY3LTguMzY3bDEuMTkxLTAuNDc3YzAuMzU3LTAuMTQ4IDAuNTM2LTAuNDQ2IDAuNTM2LTAuNzc0cy0wLjE3OS0wLjYyNS0wLjUzNi0wLjc3NGwtMS4xOTEtMC40NzdjLTMuODY4LTEuNTE4LTYuODQ4LTQuNDk5LTguMzY3LTguMzY3em0tMTUuNjc1IDM4LjYxNC0wLjI4Ny0wLjcxNWMtMC4wODktMC4yMTQtMC4yNjgtMC4zMjEtMC40NjQtMC4zMjFzLTAuMzc1IDAuMTA3LTAuNDY0IDAuMzIxbC0wLjI4NyAwLjcxNWMtMC45MTEgMi4zMjEtMi42OTkgNC4xMDktNS4wMiA1LjAybC0wLjcxNSAwLjI4N2MtMC4yMTQgMC4wODktMC4zMjEgMC4yNjgtMC4zMjEgMC40NjRzMC4xMDcgMC4zNzUgMC4zMjEgMC40NjRsMC43MTUgMC4yODdjMi4zMjEgMC45MTEgNC4xMDkgMi42OTkgNS4wMiA1LjAybDAuMjg3IDAuNzE1YzAuMDg5IDAuMjE0IDAuMjY4IDAuMzIxIDAuNDY0IDAuMzIxczAuMzc1LTAuMTA3IDAuNDY0LTAuMzIxbDAuMjg3LTAuNzE1YzAuOTExLTIuMzIxIDIuNjk5LTQuMTA5IDUuMDItNS4wMmwwLjcxNS0wLjI4N2MwLjIxNC0wLjA4OSAwLjMyMS0wLjI2OCAwLjMyMS0wLjQ2NHMtMC4xMDctMC4zNzUtMC4zMjEtMC40NjRsLTAuNzE1LTAuMjg3Yy0yLjMyMS0wLjkxMS00LjEwOS0yLjY5OS01LjAyLTUuMDJ6Ii8+Cjwvc3ZnPgo=)
 
 # Spendio — Personal Spending Dashboard
+
+> **Live demo:** [bpramjit.me](https://bpramjit.me) — try the dashboard, upload a sample CSV, or log a quick expense in your browser. No sign-up required.
 
 ## Description
 
@@ -18,7 +21,8 @@ parsed and previewed in the browser before saving. Once saved, the
 dashboard and history pages summarize spending with D3-powered charts
 — totals, top category, day-by-day trends, and a monthly donut
 breakdown. The app runs entirely on static files with a Supabase
-backend; no build step is required.
+backend; no build step is required. The app is currently deployed at
+[bpramjit.me](https://bpramjit.me) on Azure Static Web Apps.
 
 ## Features
 
@@ -57,7 +61,8 @@ backend; no build step is required.
 | [Supabase](https://supabase.com/) | Postgres database + anon key for read/insert |
 | [`@supabase/supabase-js`](https://github.com/supabase/supabase-js) | Client library (loaded via esm.sh) |
 | [Inter](https://rsms.me/inter/) typeface | Typography (served from rsms.me) |
-| [Azure Static Web Apps](https://learn.microsoft.com/azure/static-web-apps/) | Hosting (config included, optional) |
+| [Azure Static Web Apps](https://learn.microsoft.com/azure/static-web-apps/) | Hosting — live at [bpramjit.me](https://bpramjit.me) |
+| [Google Analytics 4](https://developers.google.com/analytics) | Pageviews and custom events (`transaction_saved`, `statement_parsed`, `transactions_uploaded`, `month_changed`) |
 | `serve` (npx) | Local static file server for development |
 
 ## Getting Started
@@ -158,6 +163,20 @@ spedio/
 
 ## Changelog
 
+### v1.1.0 — May 6, 2026
+
+- Deployed to Azure Static Web Apps at
+  [bpramjit.me](https://bpramjit.me) so the project is publicly
+  reachable without local setup
+- Added Google Analytics 4 (`G-69LBJ39PM6`) for pageview and
+  new-visitor tracking, with custom events for the actions that
+  matter (`transaction_saved`, `statement_parsed`,
+  `transactions_uploaded`, `month_changed`)
+- Analytics auto-disable on `localhost` so dev browsing does not
+  pollute production data; configurable via `window.SPENDIO_CONFIG`
+- Applied `db/schema.sql` to the live Supabase project so saves
+  and loads work end-to-end against the deployed app
+
 ### v1.0.0 — April 22, 2026
 
 - Initial release
@@ -181,9 +200,6 @@ spedio/
 
 ## Known Issues / To-Do
 
-- [ ] `db/schema.sql` declares a `source text check (...)` column,
-  but the client code in `js/upload.js` and `js/manual-entry.js`
-  never populates it. Either drop the column or start sending it.
 - [ ] No edit or delete affordance on saved transactions — only add
   and import. History tables should eventually expose a remove
   button.
