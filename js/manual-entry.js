@@ -14,6 +14,7 @@ import {
   monthRange,
   toISODate,
 } from "./supabase-client.js";
+import { trackEvent } from "./analytics.js";
 
 const els = {
   form: document.getElementById("entry-form"),
@@ -193,6 +194,13 @@ els.form.addEventListener("submit", async (event) => {
 
   els.success.textContent = `Saved ${formatCurrency(entry.amount)} to ${entry.category}.`;
   els.success.classList.remove("hidden");
+
+  trackEvent("transaction_saved", {
+    source: "manual",
+    category: entry.category,
+    amount: entry.amount,
+    has_description: Boolean(entry.description),
+  });
 
   els.description.value = "";
   els.amount.value = "";

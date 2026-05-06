@@ -20,6 +20,14 @@ import {
   renderDailyLineChart,
   summarizeByCategory,
 } from "./charts.js";
+import { trackEvent } from "./analytics.js";
+
+/** Format the currently-selected month as "YYYY-MM" for analytics. */
+function selectedMonthKey() {
+  return `${selectedMonth.getFullYear()}-${String(
+    selectedMonth.getMonth() + 1
+  ).padStart(2, "0")}`;
+}
 
 const els = {
   prev: document.getElementById("prev-month"),
@@ -208,6 +216,7 @@ async function init() {
     if (cmpMonth(next, minMonth) < 0) return;
     selectedMonth = next;
     loadSelectedMonth();
+    trackEvent("month_changed", { method: "prev", month: selectedMonthKey() });
   });
 
   els.next.addEventListener("click", () => {
@@ -216,12 +225,14 @@ async function init() {
     if (cmpMonth(next, maxMonth) > 0) return;
     selectedMonth = next;
     loadSelectedMonth();
+    trackEvent("month_changed", { method: "next", month: selectedMonthKey() });
   });
 
   els.select.addEventListener("change", (e) => {
     const [y, m] = e.target.value.split("-").map(Number);
     selectedMonth = new Date(y, m - 1, 1);
     loadSelectedMonth();
+    trackEvent("month_changed", { method: "select", month: selectedMonthKey() });
   });
 
   loadSelectedMonth();

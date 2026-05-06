@@ -20,6 +20,7 @@ import {
   isSupabaseConfigured,
 } from "./supabase-client.js";
 import { extractPdfLines, parsePdfLines } from "./pdf-parser.js";
+import { trackEvent } from "./analytics.js";
 
 const els = {
   form: document.getElementById("upload-form"),
@@ -400,6 +401,12 @@ els.form.addEventListener("submit", async (event) => {
 
     pendingRows = preview;
     renderPreview(preview, skipped);
+
+    trackEvent("statement_parsed", {
+      file_type: isPDF ? "pdf" : "csv",
+      row_count: preview.length,
+      skipped_count: skipped || 0,
+    });
   } catch (err) {
     console.error(err);
     showError(
@@ -461,6 +468,12 @@ els.confirmBtn.addEventListener("click", async () => {
   }
 
   const count = data?.length ?? payload.length;
+
+  trackEvent("transactions_uploaded", {
+    source: "upload",
+    count,
+    months_spanned: new Set(payload.map((p) => (p.transaction_date || "").slice(0, 7))).size,
+  });
 
   // Figure out which month(s) the saved rows span so we can send the
   // user straight to the right History view. Bank statements almost
